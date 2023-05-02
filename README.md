@@ -1,6 +1,6 @@
 # pweb1_aula_php
 
-Projeto desenvolvido durante as aulas de programação web 1 com PHP
+Projeto desenvolvido durante as aulas de programação web 1 com PHP 2023.1
 
 ## Comandos básicos Git
 
