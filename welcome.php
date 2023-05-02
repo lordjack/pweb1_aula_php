@@ -7,8 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    Nome: <?php echo $_GET['nome']; ?>
-    Email: <?php echo $_GET['email']; ?>
-    Telefone: <?php echo $_GET['telefone']; ?>
+    Nome: <?php echo $_POST['nome']; ?>
+    Email: <?php echo $_POST['email']; ?>
+    Telefone: <?php echo $_POST['telefone']; ?>
 </body>
 </html>
