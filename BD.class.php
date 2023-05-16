@@ -27,6 +27,15 @@ class BD {
         $st->execute([$dados['nome'], $dados['email'],$dados['telefone']]);
     }
 
+    public function atualizar($dados){
+
+        $id = $dados['id'];
+        $conn = $this->conn();
+        $sql = "UPDATE usuario SET nome=?, email=?, telefone=? WHERE id = $id ";
+        $st = $conn->prepare($sql);
+        $st->execute([$dados['nome'], $dados['email'],$dados['telefone']]);
+    }
+
     public function select(){
         $conn = $this->conn();
         $sql = "SELECT * FROM usuario;";
@@ -34,5 +43,21 @@ class BD {
         $st->execute();
 
         return $st->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    public function buscar($id){
+        $conn = $this->conn();
+        $sql = "SELECT * FROM usuario WHERE id=?;";
+        $st = $conn->prepare($sql);
+        $st->execute([$id]);
+
+        return $st->fetchObject();
+    }
+
+    public function deletar($id){
+        $conn = $this->conn();
+        $sql = "DELETE FROM usuario WHERE id = ?";
+        $st = $conn->prepare($sql);
+        $st->execute([$id]);
     }
 }

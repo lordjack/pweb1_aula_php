@@ -4,6 +4,11 @@
     $conn = new BD();
     $load = $conn->select();
 
+    if(!empty($_GET['id'])){
+        $conn->deletar($_GET['id']);
+        header("location: ContatoList.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +26,8 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>Email</th>
+        <th></th>
+        <th></th>
     </tr>
     <?php
         foreach($load as $item){
@@ -28,6 +35,8 @@
                 echo "<td>".$item->nome."</td>";
                 echo "<td>".$item->telefone."</td>";
                 echo "<td>".$item->email."</td>";
+                 echo "<td><a href='ContatoForm.php?id=$item->id'>Editar</a></td>";
+                echo "<td><a onclick='return confirm(\"Deseja Excluir? \")' href='ContatoList.php?id=$item->id'>Deletar</a></td>";
             echo "<tr>";
         }
     ?>

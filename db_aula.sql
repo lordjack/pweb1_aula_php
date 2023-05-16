@@ -22,16 +22,17 @@ USE `db_aula`;
 -- Copiando estrutura para tabela db_aula.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `telefone` varchar(20) COLLATE utf8mb4_bin NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `telefone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Copiando dados para a tabela db_aula.usuario: ~1 rows (aproximadamente)
 INSERT INTO `usuario` (`id`, `nome`, `telefone`, `email`) VALUES
-	(1, 'jackson', '84 9888888', 'lordjackson@gmail.com'),
-	(2, 'Maria', '49 888888', 'maria@gmail.com');
+	(5, 'teste', 'rteste', 'teste@teste.com'),
+	(6, 'teste', 'rteste', 'teste@teste.com'),
+	(7, 'jackson', '84888888', 'jackson@teste.com');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

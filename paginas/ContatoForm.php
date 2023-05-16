@@ -12,12 +12,22 @@
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception(" Formato de e-mail inválido. ");
         }
-        $conn->inserir($_POST);
+
+        if(empty($_POST['id'])){
+          $conn->inserir($_POST);
+        } else {
+          $conn->atualizar($_POST);
+        }
         header("location: ContatoList.php");
 
     } catch (Exception $e){
-        echo $e->getMessage();
+        $id = $_POST['id'];
+        header("location: ContatoForm.php?id=$id&erro=".$e->getMessage());
     }
+ }
+ if(!empty($_GET['id'])){
+   $data = $conn->buscar($_GET['id']);
+   //var_dump($data);
  }
 ?>
 <!DOCTYPE html>
@@ -31,16 +41,18 @@
 <body>
     <form action="ContatoForm.php" method="post">
         <h3>Formulário Contato</h3>
+        <?php echo(!empty($_GET["erro"])? $_GET["erro"]:"") ?><br>
+        <input type="hidden" name="id" value="<?php echo(!empty($data->id) ? $data->id:"")?>" />
         <label for="">Nome</label>
-        <input type="text" name="nome" id=""><br>
+        <input type="text" name="nome" value="<?php echo(!empty($data->nome) ? $data->nome : "" ) ?>"><br>
 
         <label for="">Email</label>
-        <input type="text" name="email" id=""><br>
+        <input type="text" name="email" value="<?php echo(!empty($data->email) ? $data->email : "" ) ?>"><br>
 
         <label for="">Telefone</label>
-        <input type="text" name="telefone" id=""><br>
+        <input type="text" name="telefone" value="<?php echo(!empty($data->telefone) ? $data->telefone : "" ) ?>"><br>
 
-        <input type="submit" value="Enviar"><br>
+        <button type="submit"><?php echo(empty($_GET['id'])?"Salvar":"Atualizar")?></button><br>
         <a href="ContatoList.php">Voltar</a><br><br>
     </form>
 </body>
