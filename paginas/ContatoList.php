@@ -2,12 +2,17 @@
     include "../BD.class.php";
 
     $conn = new BD();
-    $load = $conn->select();
 
     if(!empty($_GET['id'])){
         $conn->deletar($_GET['id']);
         header("location: ContatoList.php");
     }
+
+    if(!empty($_POST)){
+       $load = $conn->pesquisar($_POST);
+    } else {
+       $load = $conn->select();
+    } 
 
 ?>
 
@@ -20,7 +25,19 @@
     <title>Document</title>
 </head>
 <body>
+<h3>Listagem Contatos</h3>
+<form action="ContatoList.php" method="post">
+    <select name="campo">
+        <option value="nome">Nome</option>
+        <option value="telefone">Telefone</option>
+        <option value="email">Email</option>
+    </select>
+    <label>Valor</label>
+    <input type="text" name="valor" placeholder="Pesquisar"/>
+    <button type="submit">Buscar</button>
     <a href="ContatoForm.php">Cadastrar</a><br><br>
+</form>
+    
 <table border="1">
     <tr>
         <th>Nome</th>

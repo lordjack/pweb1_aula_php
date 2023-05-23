@@ -60,4 +60,30 @@ class BD {
         $st = $conn->prepare($sql);
         $st->execute([$id]);
     }
+
+    public function pesquisar($dados){
+        
+        //var_dump($dados);
+        //exit;
+        $campo = $dados['campo'];
+        $valor = $dados['valor'];
+
+        $conn = $this->conn();
+        $sql = "SELECT * FROM usuario WHERE $campo LIKE ?;";
+        $st = $conn->prepare($sql);
+        //pesquisa o campo com % para usar o like do SQL 
+        $st->execute(["%". $valor."%"]);
+
+        //retorna um vetor de objetos do tipo classe
+        return $st->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    public function login($dados){
+        $conn = $this->conn();
+        $sql = "SELECT * FROM usuario WHERE login=? AND senha=? ;";
+        $st = $conn->prepare($sql);
+        $st->execute([$dados['login'], $dados['senha']]);
+
+        return $st->fetchObject();
+    }
 }

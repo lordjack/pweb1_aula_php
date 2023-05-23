@@ -25,14 +25,16 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `telefone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `login` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `senha` varchar(150) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Copiando dados para a tabela db_aula.usuario: ~1 rows (aproximadamente)
-INSERT INTO `usuario` (`id`, `nome`, `telefone`, `email`) VALUES
-	(5, 'teste', 'rteste', 'teste@teste.com'),
-	(6, 'teste', 'rteste', 'teste@teste.com'),
-	(7, 'jackson', '84888888', 'jackson@teste.com');
+-- Copiando dados para a tabela db_aula.usuario: ~2 rows (aproximadamente)
+INSERT INTO `usuario` (`id`, `nome`, `telefone`, `email`, `login`, `senha`) VALUES
+	(1, 'Administrador', '49 888008800', 'teste@teste.com', 'admin', '123'),
+	(2, 'Jackson Five', '84 8989989', 'lordjackson@gmail.com', 'jackson', '123');
+  (3, 'José', '84 8989989', 'lordjackson@gmail.com', 'jose','1234');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
