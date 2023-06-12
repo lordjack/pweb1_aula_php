@@ -3,10 +3,10 @@
 class BD
 {
     private $host = "localhost";
-    private $dbname = "db_aula";
+    private $dbname = "db_aula_pweb1_2023_1";
     private $port = 3306;
     private $usuario = "root";
-    private $senha = "123456";
+    private $senha = "";
     private $db_charset = "utf8";
 
 
@@ -32,7 +32,6 @@ class BD
 
     public function atualizar($dados)
     {
-
         $id = $dados['id'];
         $conn = $this->conn();
         $sql = "UPDATE usuario SET nome=?, email=?, telefone=? WHERE id = $id ";
