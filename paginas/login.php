@@ -11,14 +11,15 @@ if (!empty($_POST)) {
         if ($usuario) {
             $_SESSION["login"] = $_POST['login'];
 
-            header("location: main.php");
+            $url = "main.php";
         }
     } catch (Exception $e) {
         $login = $_POST['login'];
-        header("location: login.php?login=$login&erro=" . $e->getMessage());
+        $msg = "O login ou senha esta errado.Por favor, tente novamente.";
+        $url = "login.php?login=$login&erro=" .  $msg;
     }
+    header("location: $url");
 } elseif (!empty($_GET['sair'])) {
-
 }
 ?>
 <!DOCTYPE html>
@@ -34,7 +35,7 @@ if (!empty($_POST)) {
 <body>
     <h3>Sistema Academico</h3>
     <form action="login.php" method="post">
-        <?php echo (!empty($_GET["erro"]) ? $_GET["erro"] : "") ?><br>
+        <p style="color:red"><?php echo (!empty($_GET["erro"]) ? $_GET["erro"] : "") ?></p>
         <label>Login</label>
         <input type="text" name="login" value="<?php echo (!empty($_GET['login']) ? $_GET['login'] : "") ?>" /><br>
         <label>Senha</label>

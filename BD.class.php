@@ -3,7 +3,7 @@
 class BD
 {
     private $host = "localhost";
-    private $dbname = "db_aula";
+    private $dbname = "db_aula_pweb1_2023_1";
     private $port = 3306;
     private $usuario = "root";
     private $senha = "";
@@ -97,8 +97,7 @@ class BD
         if (password_verify($dados['senha'], $result->senha)) {
             return $result;
         } else {
-            return throw new Exception(" O login ou senha esta errado.
-                 Por favor, tente novamente. ");
+            return throw new Exception("error");
         }
     }
 }
