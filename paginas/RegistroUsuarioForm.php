@@ -29,7 +29,8 @@ if (!empty($_POST)) {
         $nome = $_POST['nome'];
         $email = $_POST['email'];
         $telefone = $_POST['telefone'];
-        header("location: RegistroUsuarioForm.php?&nome=$nome&email=$email&telefone=$telefone&erro=" . $e->getMessage());
+        $login = $_POST['login'];
+        header("location: RegistroUsuarioForm.php?&nome=$nome&email=$email&telefone=$telefone&login=$login&erro=" . $e->getMessage());
     }
 }
 
@@ -57,6 +58,9 @@ if (!empty($_POST)) {
 
         <label for="">Telefone</label>
         <input type="text" name="telefone" value="<?php echo (!empty($_GET['telefone']) ? $_GET['telefone'] : "") ?>"><br>
+
+        <label for="">Login</label>
+        <input type="text" name="login" value="<?php echo (!empty($_GET['login']) ? $_GET['login'] : "") ?>"><br>
 
         <label for="">Senha</label>
         <input type="password" name="senha"><br>

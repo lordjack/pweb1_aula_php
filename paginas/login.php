@@ -45,6 +45,7 @@ if (!empty($_POST)) {
         <label>Senha</label>
         <input type="password" name="senha" /><br>
         <button type="submit">Logar</button>
+        <button><a href="RegistroUsuarioForm.php">Registrar</a></button>
     </form>
 </body>
 

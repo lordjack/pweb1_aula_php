@@ -25,9 +25,9 @@ class BD
     public function inserir($dados)
     {
         $conn = $this->conn();
-        $sql = "INSERT INTO usuario (nome, email, telefone, senha) VALUES (?, ?, ?, ?);";
+        $sql = "INSERT INTO usuario (nome, email, telefone, login, senha) VALUES (?, ?, ?, ?, ?);";
         $st = $conn->prepare($sql);
-        $st->execute([$dados['nome'], $dados['email'], $dados['telefone'], $dados['senha']]);
+        $st->execute([$dados['nome'], $dados['email'], $dados['telefone'], $dados['login'], $dados['senha']]);
     }
 
     public function atualizar($dados)
