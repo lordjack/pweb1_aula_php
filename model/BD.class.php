@@ -3,7 +3,7 @@
 class BD
 {
     private $host = "localhost";
-    private $dbname = "db_aula_pweb1_2023_1";
+    private $dbname = "db_aula";
     private $port = 3306;
     private $usuario = "root";
     private $senha = "";
@@ -22,61 +22,90 @@ class BD
         );
     }
 
-    public function inserir($dados)
+    public function inserir($nome_tabela,$dados)
     {
+        unset($dados['id']);//remove elemento do vetor
         $conn = $this->conn();
-        $sql = "INSERT INTO usuario (nome, email, telefone, login, senha) VALUES (?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO $nome_tabela (";
+        $flag = 0;
+        $arrayDados = [];
+        //concatena os campos do SQL Inserir
+        foreach($dados as $campo => $valor){
+            $sql .= $flag == 0 ? " $campo " : ", $campo ";
+            $flag = 1;
+        }
+        $sql .= ") VALUES (";
+        $flag = 0;
+         //concatena os valores do SQL Inserir
+        foreach($dados as $campo => $valor){
+            $sql .= $flag == 0 ? " ? " : ",? ";
+            $flag = 1;
+            $arrayDados[] = $valor;
+        }
+        $sql .= "); ";
+
         $st = $conn->prepare($sql);
-        $st->execute([$dados['nome'], $dados['email'], $dados['telefone'], $dados['login'], $dados['senha']]);
+        $st->execute($arrayDados);
+   
     }
 
-    public function atualizar($dados)
+    public function atualizar($nome_tabela, $dados)
     {
         $id = $dados['id'];
         $conn = $this->conn();
-        $sql = "UPDATE usuario SET nome=?, email=?, telefone=? WHERE id = $id ";
+        $sql = "UPDATE $nome_tabela SET ";
+        $flag = 0;
+        $arrayDados = [];
+        foreach($dados as $campo => $valor){
+            $sql .= $flag == 0 ? " $campo=? " : ", $campo=? ";
+  
+            $flag = 1;
+            $arrayDados [] = $valor;
+        }   
+         
+        $sql .= " WHERE id = $id ";
+
         $st = $conn->prepare($sql);
-        $st->execute([$dados['nome'], $dados['email'], $dados['telefone']]);
+        $st->execute($arrayDados);
     }
 
-    public function select()
+    public function select($nome_tabela)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario;";
+        $sql = "SELECT * FROM $nome_tabela;";
         $st = $conn->prepare($sql);
         $st->execute();
 
         return $st->fetchAll(PDO::FETCH_CLASS);
     }
 
-    public function buscar($id)
+    public function buscar($nome_tabela, $id)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE id=?;";
+        $sql = "SELECT * FROM $nome_tabela WHERE id=?;";
         $st = $conn->prepare($sql);
         $st->execute([$id]);
 
         return $st->fetchObject();
     }
 
-    public function deletar($id)
+    public function deletar($nome_tabela,$id)
     {
         $conn = $this->conn();
-        $sql = "DELETE FROM usuario WHERE id = ?";
+        $sql = "DELETE FROM $nome_tabela WHERE id = ?";
         $st = $conn->prepare($sql);
         $st->execute([$id]);
     }
 
-    public function pesquisar($dados)
+    public function pesquisar($nome_tabela,$dados)
     {
-
         //var_dump($dados);
         //exit;
         $campo = $dados['campo'];
         $valor = $dados['valor'];
 
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE $campo LIKE ?;";
+        $sql = "SELECT * FROM $nome_tabela WHERE $campo LIKE ?;";
         $st = $conn->prepare($sql);
         //pesquisa o campo com % para usar o like do SQL 
         $st->execute(["%" . $valor . "%"]);
