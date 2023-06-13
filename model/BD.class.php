@@ -9,7 +9,6 @@ class BD
     private $senha = "";
     private $db_charset = "utf8";
 
-
     public function conn()
     {
         $conn = "mysql:host=$this->host;dbname=$this->dbname;port=$this->port";
@@ -22,61 +21,89 @@ class BD
         );
     }
 
-    public function inserir($dados)
+    public function inserir($nome_tabela, $dados)
     {
+        unset($dados['id']);
         $conn = $this->conn();
-        $sql = "INSERT INTO usuario (nome, email, telefone, login, senha) VALUES (?, ?, ?, ?, ?);";
+        //a interrogação será substituida pelo valor de cada indice do vetor
+        $sql = "INSERT INTO $nome_tabela (";
+        $flag = 0;
+        foreach ($dados as $campo => $valor) {
+            $sql .= $flag == 0 ? " $campo" : ", $campo";
+            $flag = 1;
+        }
+        $sql .= ") VALUES (";
+
+        $flag = 0;
+        $arrayDados = [];
+        foreach ($dados as $campo => $valor) {
+            $sql .= $flag == 0 ? " ?" : ", ?";
+            $flag = 1;
+            $arrayDados[] = $valor;
+        }
+        $sql .= ");";
+
         $st = $conn->prepare($sql);
-        $st->execute([$dados['nome'], $dados['email'], $dados['telefone'], $dados['login'], $dados['senha']]);
+        $st->execute($arrayDados);
     }
 
-    public function atualizar($dados)
+    public function atualizar($nome_tabela, $dados)
     {
         $id = $dados['id'];
         $conn = $this->conn();
-        $sql = "UPDATE usuario SET nome=?, email=?, telefone=? WHERE id = $id ";
+        //a interrogação será substituida pelo valor de cada indice do vetor
+        $sql = "UPDATE $nome_tabela SET ";
+        $flag = 0;
+        foreach ($dados as $campo => $valor) {
+            $sql .= $flag == 0 ? " $campo = ?" : ", $campo =?";
+            $flag = 1;
+            $arrayDados[] = $valor;
+        }
+        $sql .= " WHERE id=$id;";
+
         $st = $conn->prepare($sql);
-        $st->execute([$dados['nome'], $dados['email'], $dados['telefone']]);
+        $st->execute($arrayDados);
     }
 
-    public function select()
+    public function select($nome_tabela)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario;";
+        //a interrogação será substituida pelo valor de cada indice do vetor
+        $sql = "select * from $nome_tabela;";
+
         $st = $conn->prepare($sql);
         $st->execute();
 
         return $st->fetchAll(PDO::FETCH_CLASS);
     }
 
-    public function buscar($id)
+    public function buscar($nome_tabela, $id)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE id=?;";
+        $sql = "SELECT * FROM $nome_tabela WHERE id=$id;";
+
         $st = $conn->prepare($sql);
-        $st->execute([$id]);
+        $st->execute();
 
         return $st->fetchObject();
     }
 
-    public function deletar($id)
+    public function deletar($nome_tabela, $id)
     {
         $conn = $this->conn();
-        $sql = "DELETE FROM usuario WHERE id = ?";
+        $sql = "DELETE FROM $nome_tabela WHERE id=$id;";
+
         $st = $conn->prepare($sql);
-        $st->execute([$id]);
+        $st->execute();
     }
 
-    public function pesquisar($dados)
+    public function pesquisar($nome_tabela, $dados)
     {
-
-        //var_dump($dados);
-        //exit;
         $campo = $dados['campo'];
         $valor = $dados['valor'];
-
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE $campo LIKE ?;";
+        $sql = "SELECT * FROM $nome_tabela WHERE $campo LIKE ?;";
+
         $st = $conn->prepare($sql);
         //pesquisa o campo com % para usar o like do SQL 
         $st->execute(["%" . $valor . "%"]);
@@ -85,10 +112,10 @@ class BD
         return $st->fetchAll(PDO::FETCH_CLASS);
     }
 
-    public function login($dados)
+    public function login($nome_tabela, $dados)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE login=? ;";
+        $sql = "SELECT * FROM $nome_tabela WHERE login=? ;";
         $st = $conn->prepare($sql);
         $st->execute([$dados['login']]);
 
@@ -97,7 +124,7 @@ class BD
         if (password_verify($dados['senha'], $result->senha)) {
             return $result;
         } else {
-            return throw new Exception("error");
+            return null;
         }
     }
 }

@@ -1,59 +1,34 @@
 <?php
-include "../model/BD.class.php";
+include "../controller/LoginController.php";
 include "./base/header.php";
 
-$conn = new BD();
+session_start();
+$login = new LoginController();
 
 if (!empty($_POST)) {
-    try {
+    $login->salvar($_POST);
 
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $_POST['nome'])) {
-            throw new Exception(" Somente letras e espaços em branco são permitidos. ");
-        }
-
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception(" Formato de e-mail inválido. ");
-        }
-
-        if ($_POST['senha'] === $_POST['c_senha']) {
-
-            $_POST['senha'] = password_hash($_POST['senha'], PASSWORD_BCRYPT);
-
-            //var_dump($_POST);
-            //exit;
-            $conn->inserir($_POST);
-
-            header("location: login.php");
-        } else {
-            throw new Exception(" As senhas devem se coincidirem!");
-        }
-    } catch (Exception $e) {
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $telefone = $_POST['telefone'];
-        $login = $_POST['login'];
-        header("location: RegistrarUsuarioForm.php?nome=$nome&email=$email&telefone=$telefone&login=$login&erro=" . $e->getMessage());
-    }
+    $dados = "";
+    header("location: " . $_SESSION["url"]);
 }
-if (!empty($_GET['id'])) {
-    $data = $conn->buscar($_GET['id']);
-    //var_dump($data);
-}
+
+$dados = $_SESSION['dados'];
+
 ?>
 <form action="RegistrarUsuarioForm.php" method="post">
     <h3>Formulário Registrar Usuário</h3>
-    <p style="color:red"><?php echo (!empty($_GET["erro"]) ? $_GET["erro"] : "") ?></p>
+    <p style="color:red"><?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?><br></p>
     <label for="">Nome</label>
-    <input type="text" name="nome" value="<?php echo (!empty($_GET['nome']) ? $_GET['nome'] : "") ?>"><br>
+    <input type="text" name="nome" value="<?php echo (!empty($dados['nome']) ? $dados['nome'] : "") ?>"><br>
 
     <label for="">Email</label>
-    <input type="text" name="email" value="<?php echo (!empty($_GET['email']) ? $_GET['email'] : "") ?>"><br>
+    <input type="text" name="email" value="<?php echo (!empty($dados['email']) ? $dados['email'] : "") ?>"><br>
 
     <label for="">Telefone</label>
-    <input type="text" name="telefone" value="<?php echo (!empty($_GET['telefone']) ? $_GET['telefone'] : "") ?>"><br>
+    <input type="text" name="telefone" value="<?php echo (!empty($dados['telefone']) ? $dados['telefone'] : "") ?>"><br>
 
     <label for="">Login</label>
-    <input type="text" name="login" value="<?php echo (!empty($_GET['login']) ? $_GET['login'] : "") ?>"><br>
+    <input type="text" name="login" value="<?php echo (!empty($dados['login']) ? $dados['login'] : "") ?>"><br>
 
     <label for="">Senha</label>
     <input type="password" name="senha"><br>

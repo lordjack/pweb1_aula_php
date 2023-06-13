@@ -1,5 +1,5 @@
 <?php
-include "../model/BD.class.php";
+include "../controller/ContatoController.php";
 include "./base/header.php";
 
 include "../Util.php";
@@ -7,23 +7,29 @@ include "../Util.php";
 session_start();
 verificarLogin();
 
-$conn = new BD();
+$contato = new ContatoController();
 
 if (!empty($_GET['id'])) {
-    $conn->deletar($_GET['id']);
+    $contato->deletar($_GET['id']);
+    $_SESSION["msg"] = "Registro excluido com sucesso!";
     header("location: ContatoList.php");
 }
 
 if (!empty($_POST)) {
-    $load = $conn->pesquisar($_POST);
+    $load = $contato->pesquisar($_POST);
 } else {
-    $load = $conn->select();
+    $load = $contato->carregar();
+}
+
+if (!empty($_GET['msg']) || $_GET['msg'] == 0) {
+    $_SESSION["msg"] = "";
 }
 
 ?>
-Olá <?php echo $_SESSION['nome'] ?>, seja bem vindo! <a href="login.php?sair=1"> Sair </a>
+Olá <?php echo $_SESSION['nome'] ?>, seja bem vindo! <a href="view/login.php?sair=1"> Sair </a>
 
 <h3>Listagem Contatos</h3>
+<p style="color:red"><?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?><br></p>
 <form action="ContatoList.php" method="post">
     <select name="campo">
         <option value="nome">Nome</option>
@@ -33,7 +39,7 @@ Olá <?php echo $_SESSION['nome'] ?>, seja bem vindo! <a href="login.php?sair=1"
     <label>Valor</label>
     <input type="text" name="valor" placeholder="Pesquisar" />
     <button type="submit">Buscar</button>
-    <a href="ContatoForm.php">Cadastrar</a><br><br>
+    <a href="ContatoForm.php?msg=0">Cadastrar</a><br><br>
 </form>
 
 <table border="1">
