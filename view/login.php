@@ -1,47 +1,29 @@
 <?php
-include "../BD.class.php";
+include '../controller/LoginController.php';
+include "base/header.php";
 
-$conn = new BD();
-session_start();
+$login = new LoginController();
 
 if (!empty($_POST)) {
-    try {
-        $usuario = $conn->login($_POST);
+    $login->logar($_POST);
 
-        if ($usuario) {
-            $_SESSION["login"] = $_POST['login'];
-
-            $url = "main.php";
-        }
-    } catch (Exception $e) {
-        $login = $_POST['login'];
-        $msg = "O login ou senha esta errado.Por favor, tente novamente.";
-        $url = "login.php?login=$login&erro=" .  $msg;
-    }
-    header("location: $url");
-} elseif (!empty($_GET['sair'])) {
+    $dados = "";
+    header("location: " . $_SESSION['url']);
+} else if (!empty($_GET['sair'])) {
+    session_destroy();
 }
+$dados = !empty($_SESSION['dados']) ? $_SESSION['dados'] : "";
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <h3>Sistema Academico</h3>
-    <form action="login.php" method="post">
-        <p style="color:red"><?php echo (!empty($_GET["erro"]) ? $_GET["erro"] : "") ?></p>
-        <label>Login</label>
-        <input type="text" name="login" value="<?php echo (!empty($_GET['login']) ? $_GET['login'] : "") ?>" /><br>
-        <label>Senha</label>
-        <input type="password" name="senha" /><br>
-        <button type="submit">Logar</button>
-    </form>
-</body>
-
-</html>
+<h3>Sistema Academico</h3>
+<form action="login.php" method="post">
+    <p style="color:red;">
+        <?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?>
+    </p>
+    <label>Login</label>
+    <input type="text" name="login" value="<?php echo (!empty($dados['login']) ? $dados['login'] : "") ?>" /><br>
+    <label>Senha</label>
+    <input type="password" name="senha" /><br>
+    <button type="submit">Logar</button>
+</form>
+<?php include "./base/rodape.php" ?>

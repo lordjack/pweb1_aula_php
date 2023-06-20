@@ -22,22 +22,22 @@ class BD
         );
     }
 
-    public function inserir($nome_tabela,$dados)
+    public function inserir($nome_tabela, $dados)
     {
-        unset($dados['id']);//remove elemento do vetor
+        unset($dados['id']); //remove elemento do vetor
         $conn = $this->conn();
         $sql = "INSERT INTO $nome_tabela (";
         $flag = 0;
         $arrayDados = [];
         //concatena os campos do SQL Inserir
-        foreach($dados as $campo => $valor){
+        foreach ($dados as $campo => $valor) {
             $sql .= $flag == 0 ? " $campo " : ", $campo ";
             $flag = 1;
         }
         $sql .= ") VALUES (";
         $flag = 0;
-         //concatena os valores do SQL Inserir
-        foreach($dados as $campo => $valor){
+        //concatena os valores do SQL Inserir
+        foreach ($dados as $campo => $valor) {
             $sql .= $flag == 0 ? " ? " : ",? ";
             $flag = 1;
             $arrayDados[] = $valor;
@@ -46,7 +46,7 @@ class BD
 
         $st = $conn->prepare($sql);
         $st->execute($arrayDados);
-   
+
     }
 
     public function atualizar($nome_tabela, $dados)
@@ -56,13 +56,13 @@ class BD
         $sql = "UPDATE $nome_tabela SET ";
         $flag = 0;
         $arrayDados = [];
-        foreach($dados as $campo => $valor){
+        foreach ($dados as $campo => $valor) {
             $sql .= $flag == 0 ? " $campo=? " : ", $campo=? ";
-  
+
             $flag = 1;
-            $arrayDados [] = $valor;
-        }   
-         
+            $arrayDados[] = $valor;
+        }
+
         $sql .= " WHERE id = $id ";
 
         $st = $conn->prepare($sql);
@@ -89,7 +89,7 @@ class BD
         return $st->fetchObject();
     }
 
-    public function deletar($nome_tabela,$id)
+    public function deletar($nome_tabela, $id)
     {
         $conn = $this->conn();
         $sql = "DELETE FROM $nome_tabela WHERE id = ?";
@@ -97,7 +97,7 @@ class BD
         $st->execute([$id]);
     }
 
-    public function pesquisar($nome_tabela,$dados)
+    public function pesquisar($nome_tabela, $dados)
     {
         //var_dump($dados);
         //exit;
@@ -114,10 +114,10 @@ class BD
         return $st->fetchAll(PDO::FETCH_CLASS);
     }
 
-    public function login($dados)
+    public function login($nome_tabela, $dados)
     {
         $conn = $this->conn();
-        $sql = "SELECT * FROM usuario WHERE login=? ;";
+        $sql = "SELECT * FROM $nome_tabela WHERE login=? ;";
         $st = $conn->prepare($sql);
         $st->execute([$dados['login']]);
 
@@ -126,7 +126,7 @@ class BD
         if (password_verify($dados['senha'], $result->senha)) {
             return $result;
         } else {
-            return throw new Exception("error");
+            return "error";
         }
     }
 }

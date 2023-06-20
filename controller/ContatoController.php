@@ -21,7 +21,8 @@ class ContatoController {
             if (!filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
                 throw new Exception(" Formato de e-mail inválido. ");
             }
-          
+           // var_dump($dados);
+            //exit;
             $this->model->inserir($this->table, $dados);
 
             $_SESSION['url'] ="ContatoList.php";
@@ -60,11 +61,11 @@ class ContatoController {
     }
     public function carregar(){
         
-        $this->model->select($this->table);
+       return $this->model->select($this->table);
     }
     public function pesquisar($dados){
         
-        $this->model->pesquisar($this->table, $dados);
+        return $this->model->pesquisar($this->table, $dados);
     }
     public function deletar($id){
         
@@ -72,6 +73,6 @@ class ContatoController {
     }
     public function buscar($id){
         
-        $this->model->buscar($this->table, $id);
+        return $this->model->buscar($this->table, $id);
     }
 }

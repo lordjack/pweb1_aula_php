@@ -1,17 +1,20 @@
 <?php
-    include "../BD.class.php";
+    include '../controller/ContatoController.php';
+    include "base/header.php";
 
-    $conn = new BD();
+    Util::verificarLogin();
+
+    $contato = new ContatoController();
 
     if(!empty($_GET['id'])){
-        $conn->deletar($_GET['id']);
+        $contato->deletar($_GET['id']);
         header("location: ContatoList.php");
     }
 
     if(!empty($_POST)){
-       $load = $conn->pesquisar($_POST);
+       $load = $contato->pesquisar($_POST);
     } else {
-       $load = $conn->select();
+       $load = $contato->carregar();
     } 
 
 ?>
