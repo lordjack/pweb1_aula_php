@@ -30,6 +30,7 @@ class LoginController
 
                 //var_dump($dados);
                 //exit;
+                unset($dados['c_senha']);
                 $this->model->inserir($this->table, $dados);
 
                 $_SESSION["msg"] =  "Registro realizado com sucesso!";
