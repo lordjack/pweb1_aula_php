@@ -25,5 +25,6 @@ $dados = !empty($_SESSION['dados']) ? $_SESSION['dados'] : "";
     <label>Senha</label>
     <input type="password" name="senha" /><br>
     <button type="submit">Logar</button>
+    <button><a href="RegistrarUsuarioForm.php">Registrar-se</a></button>
 </form>
 <?php include "./base/rodape.php" ?>

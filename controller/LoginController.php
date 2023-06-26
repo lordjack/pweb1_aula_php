@@ -49,7 +49,6 @@ class LoginController
 
     public function logar($dados)
     {
-
         try {
 
             $usuario = $this->model->login($this->table, $dados);
@@ -65,7 +64,7 @@ class LoginController
 
         } catch (Exception $e) {
             $_SESSION['dados'] = $dados;
-            $_SESSION['url'] = 'login.php';
+            $_SESSION['url'] = "http://" . $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR.'login.php';
             $_SESSION['msg'] = $e->getMessage();
 
         }
