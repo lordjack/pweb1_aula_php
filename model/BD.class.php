@@ -3,7 +3,7 @@
 class BD
 {
     private $host = "localhost";
-    private $dbname = "db_aula_pweb1_2023_1";
+    private $dbname = "db_aula";
     private $port = 3306;
     private $usuario = "root";
     private $senha = "";
