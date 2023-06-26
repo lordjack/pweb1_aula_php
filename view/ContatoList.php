@@ -2,9 +2,6 @@
 include "../controller/ContatoController.php";
 include "./base/header.php";
 
-include "../Util.php";
-
-session_start();
 verificarLogin();
 
 $contato = new ContatoController();
@@ -21,13 +18,11 @@ if (!empty($_POST)) {
     $load = $contato->carregar();
 }
 
-if (!empty($_GET['msg']) || $_GET['msg'] == 0) {
+if (!empty($_GET['msg'])) {
     $_SESSION["msg"] = "";
 }
 
 ?>
-Olá <?php echo $_SESSION['nome'] ?>, seja bem vindo! <a href="view/login.php?sair=1"> Sair </a>
-
 <h3>Listagem Contatos</h3>
 <p style="color:red"><?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?><br></p>
 <form action="ContatoList.php" method="post">

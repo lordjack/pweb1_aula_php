@@ -1,9 +1,7 @@
 <?php
 include "../controller/ContatoController.php";
 include "base/header.php";
-include "../Util.php";
 
-session_start();
 verificarLogin();
 
 $contato = new ContatoController();
@@ -18,21 +16,20 @@ if (!empty($_POST)) {
     $dados = "";
     header("location:" . $_SESSION['url']);
 }
-
+/*
 if ($_GET['msg'] == 0) {
     $_SESSION["msg"] = "";
-    var_dump("teste");
+  //  var_dump("teste");
 }
+*/
 if (!empty($_GET['msg'])) {
     $data = $contato->buscar($_GET['id']);
     //var_dump($data);
 }
 ?>
-Olá <?php echo $_SESSION['nome'] ?>, seja bem vindo! <a href="view/login.php?sair=1"> Sair </a>
-
 <form action="ContatoForm.php" method="post">
     <h3>Formulário Contato</h3>
-    <p style="color:red"><?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?><br></p>
+    <p style="color:red"><?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?></p>
     <input type="hidden" name="id" value="<?php echo (!empty($data->id) ? $data->id : "") ?>" />
     <label for="">Nome</label>
     <input type="text" name="nome" value="<?php echo (!empty($data->nome) ? $data->nome : "") ?>"><br>
