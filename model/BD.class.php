@@ -126,7 +126,7 @@ class BD
         if (password_verify($dados['senha'], $result->senha)) {
             return $result;
         } else {
-            return "error";
+            return throw new Exception(" O login ou senha esta errado. Por favor tente novamente.");
         }
     }
 }

@@ -1,5 +1,5 @@
 <?php
-include_once "Util.php";
+include_once dirname(__FILE__, 3) . "/Util.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

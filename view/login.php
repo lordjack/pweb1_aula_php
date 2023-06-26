@@ -1,7 +1,7 @@
 <?php
 include '../controller/LoginController.php';
-include "base/header.php";
 
+session_start();
 $login = new LoginController();
 
 if (!empty($_POST)) {

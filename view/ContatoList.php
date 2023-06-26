@@ -9,26 +9,28 @@
     if(!empty($_GET['id'])){
         $contato->deletar($_GET['id']);
         header("location: ContatoList.php");
+        $_SESSION["msg"] = "Registro Deletado com sucesso!";
     }
 
     if(!empty($_POST)){
        $load = $contato->pesquisar($_POST);
     } else {
        $load = $contato->carregar();
-    } 
-
+    }
+/*
+//passa o valor para a variavem mensagem e limpa da sessão:
+if(!empty($_SESSION['msg'])) {
+    $msg = $_SESSION['msg'];
+    unset($_SESSION['msg']);
+} else {
+    $msg = "";
+}
+*/
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 <h3>Listagem Contatos</h3>
+    <p style="color:red;">
+        <?php echo (!empty($_SESSION["msg"]) ? $_SESSION["msg"] : "") ?>
+    </p>
 <form action="ContatoList.php" method="post">
     <select name="campo">
         <option value="nome">Nome</option>
@@ -61,5 +63,5 @@
         }
     ?>
 </table>
-</body>
-</html>
+<?php
+include "base/rodape.php";

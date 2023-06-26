@@ -14,7 +14,7 @@ class ContatoController {
 
         try {
 
-            if (!preg_match("/^[a-zA-Z-' ]*$/", $dados['nome'])) {  
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $dados['nome'])) {
                 throw new Exception(" Somente letras e espaços em branco são permitidos. ");
             }
             
@@ -32,7 +32,6 @@ class ContatoController {
             $_SESSION['dados'] = $dados;
             $_SESSION['url'] = 'ContatoForm.php';
             $_SESSION['msg'] = $e->getMessage();
-    
         }
     }
     public function atualizar($dados){

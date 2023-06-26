@@ -52,19 +52,15 @@ class LoginController
         try {
 
             $usuario = $this->model->login($this->table, $dados);
-
             if ($usuario) {
-
                 $_SESSION['url'] = "base/main.php";
                 $_SESSION['nome'] = $usuario->nome;
-            } else {
-                throw new Exception(" O login ou senha esta errado. Por favor tente novamente.");
             }
             $_SESSION['login'] = $dados['login'];
 
         } catch (Exception $e) {
             $_SESSION['dados'] = $dados;
-            $_SESSION['url'] = "http://" . $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR.'login.php';
+            $_SESSION['url'] = "http://" . $_SERVER['HTTP_HOST'] . '/view/login.php';
             $_SESSION['msg'] = $e->getMessage();
 
         }

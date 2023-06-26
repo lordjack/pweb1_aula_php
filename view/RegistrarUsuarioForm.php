@@ -1,14 +1,13 @@
 <?php
 include '../controller/LoginController.php';
-include "base/header.php";
 
+session_start();
 $login = new LoginController();
 
 
 if (!empty($_POST)) {
 
     $login->salvar($_POST);
-
     $_SESSION['dados'] = "";
     header("location: " . $_SESSION['url']);
 }
