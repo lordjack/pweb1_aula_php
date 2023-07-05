@@ -9,7 +9,7 @@ if (!empty($_POST)) {
 
     $dados = "";
     header("location: " . $_SESSION['url']);
-} else if (!empty($_GET['sair'])) {
+} else if (isset($_GET['sair'])) {
     session_destroy();
 }
 $dados = !empty($_SESSION['dados']) ? $_SESSION['dados'] : "";
